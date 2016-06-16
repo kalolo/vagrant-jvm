@@ -1,0 +1,6 @@
+# vagrant_config.yml
+boxconfig:
+  name: localdev.featurvm
+  box: ubuntu/trusty64
+  ram: 2048
+  ip: 192.168.50.9

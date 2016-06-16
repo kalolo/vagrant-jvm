@@ -1,0 +1,17 @@
+---
+- name: Update apt
+  become: yes
+  apt: update_cache=yes
+
+- name: Install System Packages
+  become: yes
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - curl
+    - git-core
+    - software-properties-common
+    - make
+    - g++
+    - libssl-dev
+    - wget
+    - python-software-properties

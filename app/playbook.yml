@@ -1,0 +1,8 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - include: tasks/init.yml
+    - include: tasks/java.yml
+    - include: tasks/postgre.yml
+    - include: tasks/maven.yml
