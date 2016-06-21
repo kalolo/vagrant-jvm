@@ -1,15 +1,9 @@
 ---
 - name: Importing repo key
-  become: yes
   apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
 
 - name: Adding postgre apt
-  become: yes
-  apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' state=present
-
-- name: Update apt
-  become: yes
-  apt: update_cache=yes
+  apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' state=present update_cache=yes
 
 - name: Installing postgreSQL 9.4
   become: yes

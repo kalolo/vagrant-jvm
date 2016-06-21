@@ -4,8 +4,13 @@ boxconfig:
   box: ubuntu/trusty64
   ram: 2048
   ip: 192.168.50.10
+  aliases: ["api.mytravelapp.dev","mytravelapp.dev"]
 
 postgresql:
   user: kalolo
   userpass: k4l0l0
   dbname: talentproject
+
+sync_folders:
+    path: /Users/clopez/projects/talent/booking-app
+    mount: /home/vagrant/projects/

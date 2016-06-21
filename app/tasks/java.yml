@@ -1,19 +1,9 @@
 ---
 - name: Adding oracle java repo
-  become: yes
-  apt_repository: repo='ppa:webupd8team/java' state=present
-
-- name: Update apt
-  become: yes
-  apt: update_cache=yes
+  apt_repository: repo='ppa:webupd8team/java' state=present update_cache=yes
 
 - name: Accept Java license
-  become: yes
   debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
-
-- name: Update apt
-  become: yes
-  apt: update_cache=yes
 
 - name: Install System Packages
   become: yes

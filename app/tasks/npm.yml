@@ -1,11 +1,6 @@
 ---
 - name: Adding chris-lea node PPA
-  become: yes
-  apt_repository: repo='ppa:chris-lea/node.js' state=present
-
-- name: Update apt
-  become: yes
-  apt: update_cache=yes
+  apt_repository: repo='ppa:chris-lea/node.js' state=present update_cache=yes
 
 - name: Installing node.js and npm
   become: yes

@@ -18,9 +18,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box      = box_os
   config.vm.hostname = box_hostname
   config.vm.network "private_network", ip: box_ip
-  config.hostsupdater.aliases = ["talentproject.dev"]
+  config.hostsupdater.aliases = vconfig['boxconfig']['aliases']
   #config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.post_up_message = "Welcome!"
+
+  config.vm.synced_folder "#{vconfig['sync_folders']['path']}", "#{vconfig['sync_folders']['mount']}"
 
   config.vm.provider "virtualbox" do |v|
       v.name = box_hostname
