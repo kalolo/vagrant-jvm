@@ -15,11 +15,12 @@ box_os       = vconfig['boxconfig']['box']
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = box_os
+  config.vm.box      = box_os
   config.vm.hostname = box_hostname
   config.vm.network "private_network", ip: box_ip
-  config.hostsupdater.aliases = ["featur.dev"]
+  config.hostsupdater.aliases = ["talentproject.dev"]
   #config.vm.network "forwarded_port", guest: 80, host: 8080
+  config.vm.post_up_message = "Welcome!"
 
   config.vm.provider "virtualbox" do |v|
       v.name = box_hostname
@@ -28,6 +29,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.provision :ansible do |ansible|
     ansible.playbook = "app/playbook.yml"
+    ansible.extra_vars = {
+      pg_user: vconfig['postgresql']['user'],
+      pg_pass: vconfig['postgresql']['userpass'],
+        pg_db: vconfig['postgresql']['dbname']
+    }
   end
 
 end

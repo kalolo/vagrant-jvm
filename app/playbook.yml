@@ -6,3 +6,5 @@
     - include: tasks/java.yml
     - include: tasks/postgre.yml
     - include: tasks/maven.yml
+  #    - include: tasks/tomcat.yml
+    - include: tasks/npm.yml

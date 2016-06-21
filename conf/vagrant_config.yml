@@ -1,6 +1,11 @@
 # vagrant_config.yml
 boxconfig:
-  name: localdev.featurvm
+  name: localdev.talent.jvm
   box: ubuntu/trusty64
   ram: 2048
-  ip: 192.168.50.9
+  ip: 192.168.50.10
+
+postgresql:
+  user: kalolo
+  userpass: k4l0l0
+  dbname: talentproject

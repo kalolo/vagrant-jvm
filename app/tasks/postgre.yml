@@ -1,11 +1,11 @@
 ---
-- name: Adding postgre apt
-  become: yes
-  apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' state=present
-
 - name: Importing repo key
   become: yes
   apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
+
+- name: Adding postgre apt
+  become: yes
+  apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' state=present
 
 - name: Update apt
   become: yes
@@ -19,7 +19,7 @@
     - postgresql-contrib
     - python-psycopg2
 
-- name: Starting postgreSQL service and making sure it run on start
+- name: Start postgreSQL service and make sure it runs on start
   service: name=postgresql state=started enabled=yes
   register: started
   tags: postgresql
@@ -29,8 +29,16 @@
   when: started.changed
   tags: postgresql
 
-- name: Create database featur
-  postgresql_db: name=featur
+- name: Create database {{ pg_db }}
+  become_user: postgres
+  postgresql_db: name={{ pg_db }}
+  tags: postgresql
 
-- name: Set postgre user access to featur db
-  postgresql_user: db=featur name=postgres password=p0stgr3s priv=ALL
+- name: Create dev postgre {{ pg_user }}
+  become_user: postgres
+  postgresql_user: name={{ pg_user }} password={{ pg_pass }} state=present role_attr_flags=NOSUPERUSER,CREATEDB
+  tags: postgresql
+
+- name: Grant access to db
+  become_user: postgres
+  postgresql_user: user={{ pg_user }} db={{ pg_db }} priv=ALL
