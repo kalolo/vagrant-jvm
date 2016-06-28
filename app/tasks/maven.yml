@@ -1,9 +1,9 @@
 ---
-- name: Downloading maven 3.3.3
+- name: Maven | Downloading maven 3.3.3
   get_url: url=http://archive.apache.org/dist/maven/maven-3/3.3.3/binaries/apache-maven-3.3.3-bin.tar.gz dest=/tmp/apache-maven.tar.gz
 
-- name: Untar maven
+- name: Maven | Untar package
   unarchive: src=/tmp/apache-maven.tar.gz dest=/opt/ copy=no
 
-- name: Symlink for maven
+- name: Maven | Symlink for maven
   file: src=/opt/apache-maven-3.3.3/bin/mvn dest=/usr/local/bin/mvn state=link

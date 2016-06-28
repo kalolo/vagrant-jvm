@@ -1,11 +1,11 @@
 ---
-- name: Importing repo key
+- name: PostgreSQL | Importing repo key
   apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
 
-- name: Adding postgre apt
+- name: PostgreSQL | Adding postgre apt
   apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' state=present update_cache=yes
 
-- name: Installing postgreSQL 9.4
+- name: PostgreSQL | Installing postgreSQL 9.4
   become: yes
   apt: pkg={{ item }} update_cache=true
   with_items:
@@ -13,26 +13,30 @@
     - postgresql-contrib
     - python-psycopg2
 
-- name: Start postgreSQL service and make sure it runs on start
+- name: PostgreSQL | Start postgreSQL service and make sure it runs on start
   service: name=postgresql state=started enabled=yes
   register: started
-  tags: postgresql
 
-- name: Waiting for postgre service...
+- name: PostgreSQL | Waiting for postgre service...
   command: sleep 2
   when: started.changed
   tags: postgresql
 
-- name: Create database {{ pg_db }}
+- name: PostgreSQL | Create database {{ pg_db }}
+  become: yes
   become_user: postgres
   postgresql_db: name={{ pg_db }}
-  tags: postgresql
+                 encoding='UTF-8'
+                 lc_collate='en_US.UTF-8'
+                 lc_ctype='en_US.UTF-8'
+                 template='template0'
 
-- name: Create dev postgre {{ pg_user }}
+- name: PostgreSQL | Create dev postgre {{ pg_user }}
+  become: yes
   become_user: postgres
-  postgresql_user: name={{ pg_user }} password={{ pg_pass }} state=present role_attr_flags=NOSUPERUSER,CREATEDB
-  tags: postgresql
+  postgresql_user: name={{ pg_user }} password={{ pg_pass }} state=present role_attr_flags=CREATEDB,SUPERUSER
 
-- name: Grant access to db
+- name: PostgreSQL | Ensure user has access to database
+  become: yes
   become_user: postgres
-  postgresql_user: user={{ pg_user }} db={{ pg_db }} priv=ALL
+  postgresql_user: db={{ pg_db }} name={{ pg_user }} password={{ pg_pass }} priv=ALL

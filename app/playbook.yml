@@ -7,4 +7,5 @@
     - include: tasks/postgre.yml
     - include: tasks/maven.yml
     - include: tasks/npm.yml
+    - include: tasks/mongodb.yml
 #    - include: tasks/tomcat.yml

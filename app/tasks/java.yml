@@ -1,11 +1,11 @@
 ---
-- name: Adding oracle java repo
+- name: Java | Adding oracle java repo
   apt_repository: repo='ppa:webupd8team/java' state=present update_cache=yes
 
-- name: Accept Java license
+- name: Java | Accept Java license
   debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
 
-- name: Install System Packages
+- name: Java | Installing java packages
   become: yes
   apt: pkg={{ item }} state=latest
   with_items:

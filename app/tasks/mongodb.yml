@@ -1,0 +1,15 @@
+---
+- name: MongoDB | Fetch GPG key
+  become: yes
+  command: apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+
+- name: MongoDB | Add 10 gen repository
+  apt_repository: repo='deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' state=present update_cache=yes
+
+- name: MongoDB | Install latest mongodb
+  become: yes
+  apt: pkg=mongodb-10gen update-cache=true
+
+- name: MongoDB | Run mongo daemon
+  become: yes
+  service: name=mongodb state=started

@@ -1,17 +1,17 @@
 ---
-- name: Adding chris-lea node PPA
+- name: NPM | Adding chris-lea node PPA
   apt_repository: repo='ppa:chris-lea/node.js' state=present update_cache=yes
 
-- name: Installing node.js and npm
+- name: NPM | Installing node.js and npm
   become: yes
   apt: pkg={{ item }} state=installed
   with_items:
     - nodejs
 
-- name: Make sure npm is latest
+- name: NPM | Make sure npm is latest
   command: npm install -g npm
 
-- name: Adding npm modules
+- name: NPM | Adding npm modules
   become: yes
   npm: name={{ item }} global=yes
   with_items:
